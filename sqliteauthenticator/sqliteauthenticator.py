@@ -51,7 +51,7 @@ class SQLiteAuthenticator(Authenticator):
 
         conn = sqlite3.connect(self.db_path)
         curs = conn.cursor()
-        sel = "SELECT {na} FROM {ta} WHERE {na}='{us}' AND {pa}={pwd}".format(na=self.db_name,
+        sel = "SELECT {na} FROM {ta} WHERE {na}='{us}' AND {pa}='{pwd}'".format(na=self.db_name,
                                                                               ta=self.db_table,
                                                                               us=username,
                                                                               pa=self.db_passwd,
