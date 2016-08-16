@@ -6,7 +6,7 @@ import re
 
 import sqlite3
 
-class SqliteAuthenticator(Authenticator):
+class SQLiteAuthenticator(Authenticator):
     db_path = Unicode(
         config = True,
         help = 'Path to SQLite database'
@@ -51,4 +51,15 @@ class SqliteAuthenticator(Authenticator):
 
         conn = sqlite3.connect(self.db_path)
         curs = conn.cursor()
-        curs.execute()
+        sel = "SELECT {na} FROM {ta} WHERE {na}='{us}' AND {pa}={pwd}".format(na=self.db_name,
+                                                                              ta=self.db_table,
+                                                                              us=username,
+                                                                              pa=self.db_passwd,
+                                                                              pwd=password)
+        curs.execute(sel)
+        out = curs.fetchone()[0]
+        if out:
+            return out
+        else:
+            self.log.warn('Invalid user or password')
+            return None
