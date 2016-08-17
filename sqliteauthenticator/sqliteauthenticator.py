@@ -61,7 +61,7 @@ class SQLiteAuthenticator(Authenticator):
         if not res:
             self.log.warn('Invalid user or password')
             return None
-        out = curs.fetchone()[0]
+        out = res[0]
         if out:
             return out
         else:
