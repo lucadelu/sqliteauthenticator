@@ -57,6 +57,10 @@ class SQLiteAuthenticator(Authenticator):
                                                                               pa=self.db_passwd,
                                                                               pwd=password)
         curs.execute(sel)
+        res = curs.fetchone()
+        if not res:
+            self.log.warn('Invalid user or password')
+            return None
         out = curs.fetchone()[0]
         if out:
             return out
